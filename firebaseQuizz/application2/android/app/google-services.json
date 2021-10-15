@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "801057974430",
+    "project_id": "hai912isciencequizz",
+    "storage_bucket": "hai912isciencequizz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801057974430:android:38046f64289ea602de338f",
+        "android_client_info": {
+          "package_name": "com.example.application2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801057974430-gjvelm89vpgejo47tq5b6k4pv5unlkc3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVVc7A7zmtojpg7vzw6YXT_nRenSI-WYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801057974430-gjvelm89vpgejo47tq5b6k4pv5unlkc3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
