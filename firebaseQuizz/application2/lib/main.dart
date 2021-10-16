@@ -205,7 +205,7 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //checkAnswerNext();
                 // ignore: void_checks
-             //   return AddQuestion("ui", "company", 25);
+                 AddQuestion("ui", "company", 25);
               },
             ),
           ),

@@ -35,9 +35,6 @@ import 'package:flutter/foundation.dart';
   }
 
 
- // Question 1  = await questionRef.doc('1').get().then((snapshot) => snapshot.data()!);
-
-
 class QuizzQuestion {
 
 
@@ -50,20 +47,18 @@ class QuizzQuestion {
 
  static Future<void> getQuestionSync() async {
 
-
-    Question x = await questionRef.doc('9BaUgLf8GalWJqrgB58g').get().then((snapshot) => snapshot.data()!);
-    Question x1 = await questionRef.doc('Du0zhWAlMbSGWN84K4AY').get().then((snapshot) => snapshot.data()!);
-    Question x2 = await questionRef.doc('isEZFRnGNN0ewQUdGiXb').get().then((snapshot) => snapshot.data()!);
-    Question x3 = await questionRef.doc('jeRMBx3jndUPDpCmSYUo').get().then((snapshot) => snapshot.data()!);
-    Question x4 = await questionRef.doc('mDYtCyUfzRmO6bX7bdg6').get().then((snapshot) => snapshot.data()!);
+   CollectionReference questionRef = FirebaseFirestore.instance.collection('Questions');
 
 
-    QuizzQuestion.questionText.add(x);
-    QuizzQuestion.questionText.add(x1);
-    QuizzQuestion.questionText.add(x2);
-    QuizzQuestion.questionText.add(x3);
-    QuizzQuestion.questionText.add(x4);
-
+   QuerySnapshot query = await questionRef.get();
+   List<QueryDocumentSnapshot> docs = query.docs;
+   for (var doc in docs) {
+     if (doc.data() != null) {
+       var data = doc.data() as Map<String, dynamic>;
+       questionText.add(Question(
+           question : data['question'], isCorrect : data['isCorrect'], imageURL : data['imageURL']));
+     }
+   }
   }
 
   static int questionNumber = 0;
