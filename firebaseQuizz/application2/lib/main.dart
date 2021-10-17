@@ -1,6 +1,9 @@
+// ignore_for_file: void_checks
+
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'add_question.dart';
 import 'question.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -113,8 +116,13 @@ class _QuizPageState extends State<QuizPage> {
             errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
+        Container(
+          alignment: Alignment.center,
+          height: 40,
+          child: Text("Theme : " + QuizzQuestion.getTheme()),
+        ),
         Expanded(
-          flex: 6,
+          flex: 4,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Center(
@@ -203,10 +211,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //checkAnswerNext();
-                // ignore: void_checks
-                 AddQuestion("ui", "company", 25);
-              },
+                Navigator.push(context,  MaterialPageRoute(builder: (context) => NewQuestion()),
+                );
+              }
             ),
           ),
         ),
@@ -215,38 +222,24 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-class AddQuestion extends StatelessWidget {
-  final String fullName;
-  final String company;
-  final int age;
-
-  AddQuestion(this.fullName, this.company, this.age);
+class NewQuestion extends StatelessWidget {
+  const NewQuestion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Create a CollectionReference called users that references the firestore collection
-    CollectionReference users = FirebaseFirestore.instance.collection('Questions');
-
-    Future<void> addUser() {
-      // Call the user's CollectionReference to add a new user
-      return users
-          .add({
-        'full_name': fullName, // John Doe
-        'company': company, // Stokes and Sons
-        'age': age // 42
-      })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
-    return FlatButton(
-      onPressed: addUser,
-      child: Text(
-        "Add User",
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.cyan.shade900,
+        title: const Text("Ajout question"),
+      ),
+      body: Center(
+        child: addQuestion(context),
       ),
     );
   }
 }
+
+
 
 
 

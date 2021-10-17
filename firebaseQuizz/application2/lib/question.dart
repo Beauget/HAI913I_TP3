@@ -3,19 +3,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
+import 'add_question.dart';
+
 @immutable
  class Question {
   String question;
   bool isCorrect;
   String imageURL;
+  String theme;
 
   Question(
-      {required this.question, required this.isCorrect, required this.imageURL});
+      {required this.question, required this.isCorrect, required this.imageURL, required this.theme});
 
 
 
 
-  Question.fromJson(Map<String, Object?> json)
+ /* Question.fromJson(Map<String, Object?> json)
       : this(
     question: json['question']! as String,
     isCorrect: json['isCorrect']! as bool,
@@ -28,7 +31,7 @@ import 'package:flutter/foundation.dart';
       'isCorrect': isCorrect,
       'imageURL': imageURL,
     };
-  }
+  }*/
 
 
 
@@ -40,15 +43,10 @@ class QuizzQuestion {
 
   static List<Question> questionText = List.empty(growable: true);
 
-  static final questionRef = FirebaseFirestore.instance.collection('Questions').withConverter<Question>(
-    fromFirestore: (snapshot, _) => Question.fromJson(snapshot.data()!),
-    toFirestore: (question, _) => question.toJson(),
-  );
+ static CollectionReference questionRef = FirebaseFirestore.instance.collection('Questions');
+
 
  static Future<void> getQuestionSync() async {
-
-   CollectionReference questionRef = FirebaseFirestore.instance.collection('Questions');
-
 
    QuerySnapshot query = await questionRef.get();
    List<QueryDocumentSnapshot> docs = query.docs;
@@ -56,9 +54,22 @@ class QuizzQuestion {
      if (doc.data() != null) {
        var data = doc.data() as Map<String, dynamic>;
        questionText.add(Question(
-           question : data['question'], isCorrect : data['isCorrect'], imageURL : data['imageURL']));
+           question : data['question'], isCorrect : data['isCorrect'], imageURL : data['imageURL'],theme: data['theme']));
      }
    }
+  }
+
+  static Future<void> addQuestions() {
+    return questionRef
+        .add({
+      'question': questionC.text,
+      'isCorrect': stringToBool(isCorrectC.text),
+      'imageURL': noURL(imageURLC.text),
+      'theme' : themeC.text
+    })
+        .then((value) => getQuestionSync())
+        .then((value) => reset())
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   static int questionNumber = 0;
@@ -74,6 +85,10 @@ class QuizzQuestion {
 
   static bool getCorrectAnswer() {
     return questionText[questionNumber].isCorrect;
+  }
+
+  static String getTheme() {
+    return questionText[questionNumber].theme;
   }
 
   static bool isFinished() {
@@ -92,6 +107,8 @@ class QuizzQuestion {
   static void reset() {
     questionNumber = 0;
   }
+
+
 
 
 }
