@@ -17,7 +17,7 @@ class QuestionAPI {
 
 
   static Future<void> getQuestionSync() async {
-    QuerySnapshot query = await questionRef.getAllQuestions();
+    QuerySnapshot query = await questionRef2.get();
     List<QueryDocumentSnapshot> docs = query.docs;
     for (var doc in docs) {
       if (doc.data() != null) {
